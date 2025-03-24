@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Liste des Patients</title>
+    <!-- Materialize CSS via CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Styles personnalisés -->
+    <style>
+        :root {
+            --primary-color: #00796B;  /* Teal Blue */
+            --secondary-color: #4DB6AC;  /* Light Blue */
+            --accent-color: #80CBC4;  /* Soft Blue Accent */
+            --background-color: #F1F1F1;  /* Light Gray */
+            --text-color: #333;  /* Dark Gray for readability */
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.2);
+        }
+
+        /* General Styles */
+        body {
+            background-color: var(--background-color);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .page-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            margin-bottom: 30px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 10px var(--shadow-light);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2.4rem;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .add-button {
+            background: var(--primary-color);
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 8px var(--shadow-light);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .add-button:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px var(--shadow-dark);
+        }
+
+        /* Search Bar */
+        .search-container {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-light);
+            margin-bottom: 30px;
+        }
+
+        .search-container input {
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px var(--shadow-light);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 2px 8px var(--shadow-dark);
+        }
+
+        /* Cards */
+        .patient-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-light);
+            transition: all 0.3s ease-in-out;
+            border-top: 5px solid var(--accent-color);
+            padding: 20px;
+        }
+
+        .patient-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-dark);
+        }
+
+        .patient-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .info-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        /* Card Actions */
+        .card-action {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            background: #E0E0E0;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 6px var(--shadow-light);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px var(--shadow-dark);
+        }
+
+        .view-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .edit-btn {
+            background: #FFC107;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #F44336;
+            color: white;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .empty-state-text {
+            font-size: 1.3rem;
+            color: #666;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 8px;
+        }
+
+        .pagination li {
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 6px var(--shadow-light);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .pagination li:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .pagination li.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- En-tête de page -->
+    <div class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h2 class="page-title">Liste des Patients</h2>
+                <a th:href="@{/patients/new}" class="btn waves-effect waves-light add-button">
+                    <i class="material-icons left">add</i>Nouveau Patient
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message si aucun patient -->
+    <div th:if="${#lists.isEmpty(patients)}" class="empty-state">
+        <i class="material-icons">people_outline</i>
+        <p class="empty-state-text">Aucun patient trouvé dans la base de données.</p>
+        <a th:href="@{/patients/new}" class="btn waves-effect waves-light add-button">
+            <i class="material-icons left">add</i>Ajouter un patient
+        </a>
+    </div>
+
+    <!-- Cartes des patients -->
+    <div class="row" th:unless="${#lists.isEmpty(patients)}">
+        <div class="col s12 m6 l4" th:each="patient : ${patients}">
+            <div class="card patient-card">
+                <div class="card-content">
+                    <div class="patient-name" th:text="${patient.name + ' ' + patient.prenom}"></div>
+
+                    <div class="patient-info">
+                        <i class="material-icons info-icon">fingerprint</i>
+                        <span th:text="${'ID: ' + patient.id}"></span>
+                    </div>
+
+                    <div class="patient-info">
+                        <i class="material-icons info-icon">email</i>
+                        <span th:text="${patient.email}"></span>
+                    </div>
+
+                    <div class="patient-info">
+                        <i class="material-icons info-icon">phone</i>
+                        <span th:text="${patient.phone}"></span>
+                    </div>
+                </div>
+
+                <div class="card-action">
+                    <a th:href="@{/patients/edit/{id}(id=${patient.id})}" class="btn-floating waves-effect waves-light edit-btn action-btn" title="Modifier">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a th:href="@{/deletePatient(id=${patient.id})}" class="btn-floating waves-effect waves-light delete-btn action-btn" title="Supprimer"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce patient?');">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" th:if="${!#lists.isEmpty(patients) && patients.size() > 9}">
+        <ul class="pagination">
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+            <li class="active"><a href="#!">1</a></li>
+            <li class="waves-effect"><a href="#!">2</a></li>
+            <li class="waves-effect"><a href="#!">3</a></li>
+            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- jQuery et Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialisation des composants Materialize
+
+        // Fonction de recherche
+        const searchInput = document.getElementById('search');
+        searchInput.addEventListener('keyup', function() {
+            const searchText = this.value.toLowerCase();
+            const patientCards = document.querySelectorAll('.patient-card');
+
+            patientCards.forEach(card => {
+                const patientName = card.querySelector('.patient-name').textContent.toLowerCase();
+                const patientInfo = Array.from(card.querySelectorAll('.patient-info span'))
+                    .map(span => span.textContent.toLowerCase())
+                    .join(' ');
+
+                if (patientName.includes(searchText) || patientInfo.includes(searchText)) {
+                    card.closest('.col').style.display = '';
+                } else {
+                    card.closest('.col').style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Form</title>
+    <!-- Inclure Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Inclure Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .form-title {
+            color: #00796b; /* Teal Blue */
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-container {
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            background-color: #f1f8e9; /* Light Gray */
+            border-top: 5px solid #00796b; /* Teal Blue */
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn-submit {
+            background-color: #00796b; /* Teal Blue */
+            margin-right: 15px;
+        }
+
+        .btn-submit:hover {
+            background-color: #004d40; /* Darker Teal Blue */
+        }
+
+        .input-field .prefix {
+            color: #4caf50; /* Light Blue */
+        }
+
+        /* Color of labels and underline of input fields */
+        .input-field input:focus + label, .input-field input.valid + label {
+            color: #00796b !important; /* Teal Blue */
+        }
+
+        .input-field input:focus, .input-field input.valid {
+            border-bottom: 1px solid #00796b !important; /* Teal Blue */
+            box-shadow: 0 1px 0 0 #00796b !important; /* Teal Blue */
+        }
+
+        /* Page header with teal background */
+        .page-header {
+            background-color: #00796b; /* Teal Blue */
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .card-panel.green {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #80cbc4; /* Light Teal */
+        }
+
+    </style>
+</head>
+<body>
+<div class="page-header">
+    <div class="container">
+        <h4 class="center-align">Centre de Santé</h4>
+    </div>
+</div>
+
+<section layout:fragment="content" class="container">
+    <div class="card-panel green lighten-4">
+        <div class="center-align">
+            <i class="material-icons medium green-text text-darken-3">person_add</i>
+            <h2 class="form-title">Formulaire d'Inscription Patient</h2>
+        </div>
+    </div>
+
+    <form th:object="${patient}" method="post" action="/patients" class="form-container">
+        <div class="input-field">
+            <i class="material-icons prefix">person</i>
+            <input type="text" th:field="*{name}" id="nom" class="validate" required>
+            <label for="nom">Nom</label>
+        </div>
+
+        <div class="input-field">
+            <i class="material-icons prefix">face</i>
+            <input type="text" th:field="*{prenom}" id="prenom" class="validate" required>
+            <label for="prenom">Prénom</label>
+        </div>
+
+        <div class="input-field">
+            <i class="material-icons prefix">email</i>
+            <input type="email" th:field="*{email}" id="email" class="validate" required>
+            <label for="email">Email</label>
+        </div>
+
+        <div class="input-field">
+            <i class="material-icons prefix">phone</i>
+            <input type="tel" th:field="*{phone}" id="phone" class="validate" required>
+            <label for="phone">Téléphone</label>
+        </div>
+
+        <div class="center-align" style="margin-top: 30px;">
+            <button type="submit" class="btn btn-submit waves-effect waves-light">
+                <i class="material-icons left">send</i>Enregistrer
+            </button>
+            <button type="reset" class="btn waves-effect waves-light grey">
+                <i class="material-icons left">clear</i>Annuler
+            </button>
+        </div>
+    </form>
+</section>
+
+<!-- Inclure Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialisation des labels pour qu'ils soient actifs avec les placeholders
+        M.updateTextFields();
+    });
+</script>
+</body>
+</html>

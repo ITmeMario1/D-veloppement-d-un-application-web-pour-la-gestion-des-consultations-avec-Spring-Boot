@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Consultation System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #009688; /* Teal blue */
+            --primary-dark: #00796b; /* Darker teal blue */
+            --secondary: #00bcd4; /* Light blue */
+            --light: #e1f5fe; /* Light blue (lighter) */
+            --dark: #263238; /* Dark gray */
+            --white: #ffffff; /* White */
+            --gray: #f5f5f5; /* Light gray */
+        }
+
+        /* General Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray);
+            color: #333;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 0.8rem 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Navbar Brand */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--white) !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        /* Navbar Links */
+        .nav-link {
+            font-weight: 500;
+            color: var(--white) !important;
+            margin: 0 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            display: inline-flex;   /* Make sure links are centered */
+            align-items: center;    /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Welcome Header */
+        .welcome-header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: var(--white);
+            padding: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-header h1 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+        }
+
+        .welcome-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            text-align: center; /* Center align text */
+        }
+
+        /* Welcome Body */
+        .welcome-body {
+            padding: 2rem;
+        }
+
+        /* Feature Card */
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align the content */
+            justify-content: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Feature Icon */
+        .feature-icon {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light);
+        }
+
+        .feature-icon i {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        /* Feature Content */
+        .feature-content {
+            padding: 1.5rem;
+            text-align: center;  /* Center the text */
+        }
+
+        .feature-content h3 {
+            color: var(--primary-dark);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Custom Button */
+        .btn-custom {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            display: inline-flex;   /* Ensures the button text is centered */
+            align-items: center;    /* Vertically centers the text */
+            justify-content: center; /* Horizontally centers the text */
+        }
+
+        .btn-custom:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark); /* Dark background color */
+            color: var(--white); /* White text */
+            padding: 3rem 0 2rem; /* Padding for spacing */
+            height: 270px; /* Fixed height */
+            margin-top: 100px; /* Position it at the bottom */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-title {
+            color: var(--white);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            text-align: center; /* Center the footer title */
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s;
+            text-align: center; /* Center footer links */
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+            justify-content: center; /* Center social links */
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Copyright */
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Section Content Styles */
+        .section-content {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Override for content section */
+        [layout:fragment="content"] {
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-hospital-user"></i>
+                Patient Consultation System
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/patients}">
+                            <i class="fas fa-user-injured me-2"></i>Patients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/consultations}">
+                            <i class="fas fa-stethoscope me-2"></i>Consultations
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="main-content">
+    <div class="container">
+        <div layout:fragment="content">
+            <div class="jumbotron">
+                <h1 class="display-4"><i class="fas fa-heartbeat me-3"></i>Welcome to Patient Consultation System</h1>
+                <p class="lead">Manage your patients and consultations efficiently</p>
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-user-injured"></i>Patients</h5>
+                                <p class="card-text">View and manage your patients' information</p>
+                                <a th:href="@{/patients}" class="btn btn-success">
+                                    Go to Patients <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-stethoscope"></i>Consultations</h5>
+                                <p class="card-text">Schedule and manage consultations</p>
+                                <a th:href="@{/consultations}" class="btn btn-success">
+                                    Go to Consultations <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h5 class="footer-title">Patient Consultation System</h5>
+                <p>A comprehensive solution for healthcare providers to manage patient consultations efficiently and effectively.</p>
+                <div class="social-links">
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <h5 class="footer-title">Quick Links</h5>
+                <div class="footer-links">
+                    <a th:href="@{/}"><i class="fas fa-home me-2"></i> Home</a>
+                    <a th:href="@{/patients}"><i class="fas fa-user-injured me-2"></i> Patients</a>
+                    <a th:href="@{/consultations}"><i class="fas fa-stethoscope me-2"></i> Consultations</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="footer-title">Contact Us</h5>
+                <div class="footer-links">
+                    <a href="mailto:contact@patientsystem.com"><i class="fas fa-envelope me-2"></i> contact@patientsystem.com</a>
+                    <a href="tel:+123456789"><i class="fas fa-phone me-2"></i> 0601939172</a>
+                    <a href="#"><i class="fas fa-map-marker-alt me-2"></i> 123 Medical Center, Health Avenue</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Patient Consultation System. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
