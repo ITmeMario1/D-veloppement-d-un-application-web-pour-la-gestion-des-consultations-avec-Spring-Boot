@@ -1,42 +1,40 @@
-﻿# gestion_consultation
-# accueil
- Cette page représente l'interface d'accueil du Système de Consultation des Patients.
- 
-![Accueil](https://github.com/user-attachments/assets/0ba13308-117a-4bc8-8e13-ed6fadc5b586)
+# D-veloppement-d-un-application-web-pour-la-gestion-des-consultations-avec-Spring-Boot:
+gestion_consultation
+accueil:
+<img width="959" alt="Patient Consulation" src="https://github.com/user-attachments/assets/f1150bef-f952-4d11-baf3-03ee89eec0e6" />
 
-# ListPatient
+ListPatient:
 Cette interface permet aux professionnels de santé de visualiser rapidement leurs patients, d'accéder à leurs coordonnées, et de gérer leur liste avec des options pour ajouter, modifier ou supprimer des dossiers patients.
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/e071fa6c-8b88-4a54-9bf6-0bf1b8f71edc" />
 
-![Patients](https://github.com/user-attachments/assets/5ea6b36f-dea5-456f-b85a-e45ebda4c303)
+AddPatient:
+Cette page affiche le formulaire d'inscription pour ajouter un nouveau patient dans le Système de Consultation des Patients.
+<img width="959" alt="add patient" src="https://github.com/user-attachments/assets/b3ee842d-8947-4d4e-912c-f575646464e1" />
 
-# AddPatient
-Cette page affiche le formulaire d'inscription pour ajouter un nouveau patient dans le Système de Consultation des Patients. 
-
-![addPatient](https://github.com/user-attachments/assets/74ad7740-824f-4aec-997c-22e5ae8031a0)
-
-# EditPatient
+Edit Patient
 Cette interface appartient à un système de consultation des patients. Elle permet de modifier les informations d’un patient enregistré dans la base de données.
+<img width="950" alt="image" src="https://github.com/user-attachments/assets/6fca9b1b-5ad5-4e3e-a684-03164bf46964" />
 
-![EditPatient](https://github.com/user-attachments/assets/3d93cb57-e50a-4689-b1fd-a911baa153e7)
-
-# ListConsultations
+List Consultations:
 Cette interface appartient au système de consultation des patients et affiche la liste des consultations médicales.
+<img width="959" alt="consultation list" src="https://github.com/user-attachments/assets/9c0d0050-f99a-4d0f-b6c3-977a3bfc78d9" />
 
-![ListConsultations](https://github.com/user-attachments/assets/e499b6c6-4c59-4db3-a887-b0a4172031b7)
-
-
-# AddConsultation
+AddConsultation
 Cette interface appartient au système de consultation des patients et permet d'ajouter une nouvelle consultation.
+<img width="958" alt="add consultation" src="https://github.com/user-attachments/assets/b76cd84f-98f5-4e70-a4b6-006b49b603d4" />
 
-![addConsultations](https://github.com/user-attachments/assets/94359710-9c7d-44fc-a2c1-adc5d784f482)
-
-# EditConsultation
+Edit Consultation
 Cette page affiche le formulaire de modification d'une consultation existante dans le Système de Consultation des Patients.
-
-![editConsultation](https://github.com/user-attachments/assets/d075b1e3-7c4e-4f1b-80c6-f9584e772185)
-
+<img width="947" alt="image" src="https://github.com/user-attachments/assets/39deeb0a-ca8b-4e83-8ad6-d5c7bd635a1f" />
 
 
+Technologies Used
 
+Frontend: HTML, CSS, JavaScript
 
+Backend: Python (Django)
+
+Database: MySQL
+
+UI Framework: Bootstrap
 
